@@ -1,0 +1,12 @@
+{
+  "name": "msf-portfolio",
+  "version": "1.0.0",
+  "description": "Muhammad Saad Fayyaz — Software Engineer Portfolio",
+  "scripts": {
+    "dev": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+    "build": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}
