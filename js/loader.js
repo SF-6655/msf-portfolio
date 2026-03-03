@@ -24,7 +24,8 @@ async function loadComponents() {
   initNavbarScroll();
   initMonoAnimation();
   initBurger();
-  initContactForm(); 
+  initContactForm();
+  initCubeTransition(); 
 }
 
 // Page loader fade out
