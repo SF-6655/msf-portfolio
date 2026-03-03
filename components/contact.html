@@ -39,26 +39,49 @@
           </div>
         </div>
       </div>
+
       <div class="reveal">
         <div class="contact-form">
           <div class="form-header">SEND_MESSAGE.EXE</div>
-          <div class="form-group">
-            <label class="form-label">Name</label>
-            <input type="text" placeholder="Your Name" class="form-input" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Email</label>
-            <input type="email" placeholder="your@email.com" class="form-input" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Message</label>
-            <textarea rows="4" placeholder="Let's build something..." class="form-textarea"></textarea>
-          </div>
-          <a href="mailto:saadfayyaz2022@gmail.com" class="btn-primary" style="display:block;text-align:center;margin-top:24px;">
-            Transmit Message
-          </a>
+
+          <form id="contactForm" action="https://formspree.io/f/xdalrjjy" method="POST" novalidate>
+
+  <div class="form-group">
+    <label class="form-label">Name</label>
+    <input type="text" id="fieldName" name="name" placeholder="Your Name" class="form-input" />
+    <div class="form-error-msg" id="nameError">⚠ Name must be at least 2 letters, no numbers</div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Email</label>
+    <input type="email" id="fieldEmail" name="email" placeholder="your@email.com" class="form-input" />
+    <div class="form-error-msg" id="emailError">⚠ Enter a valid email address (e.g. you@example.com)</div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Message</label>
+    <textarea id="fieldMessage" name="message" rows="4" placeholder="Let's build something..." class="form-textarea"></textarea>
+    <div class="form-error-msg" id="messageError">⚠ Message must be at least 20 characters</div>
+  </div>
+
+  <!-- Honeypot spam filter -->
+  <input type="text" name="_gotcha" style="display:none" />
+
+  <button type="submit" class="btn-primary" style="display:block;width:100%;text-align:center;margin-top:24px;">
+    Transmit Message
+  </button>
+
+  <div id="formSuccess" style="display:none;margin-top:16px;text-align:center;color:#00f5ff;font-family:'Share Tech Mono',monospace;font-size:0.8rem;letter-spacing:2px;">
+    ✓ MESSAGE TRANSMITTED SUCCESSFULLY
+  </div>
+  <div id="formError" style="display:none;margin-top:16px;text-align:center;color:#ff00ff;font-family:'Share Tech Mono',monospace;font-size:0.8rem;letter-spacing:2px;">
+    ✗ TRANSMISSION FAILED — TRY AGAIN
+  </div>
+
+</form>
         </div>
       </div>
+
     </div>
   </div>
 </section>
