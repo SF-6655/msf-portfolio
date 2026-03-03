@@ -1,5 +1,5 @@
 {
-  "buildCommand": null,
-  "outputDirectory": ".",
-  "installCommand": null
+  "name": "msf-portfolio",
+  "version": "1.0.0",
+  "description": "Muhammad Saad Fayyaz Portfolio"
 }
