@@ -1,5 +1,4 @@
 {
-  "name": "msf-portfolio",
-  "version": "1.0.0",
-  "description": "Muhammad Saad Fayyaz Portfolio"
+  "buildCommand": null,
+  "outputDirectory": "."
 }
