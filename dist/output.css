@@ -392,7 +392,7 @@ footer { border-top:1px solid var(--border);padding:40px 24px;text-align:center;
   nav { padding: 16px 20px; }
   .nav-burger { display: flex; }
   .nav-links {
-    display: flex;
+    display: none;
     position: fixed;
     top: 100%; left: 0; right: 0;
     background: rgba(5,5,16,0.98);
