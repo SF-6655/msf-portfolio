@@ -392,16 +392,16 @@ footer { border-top:1px solid var(--border);padding:40px 24px;text-align:center;
   nav { padding: 16px 20px; }
   .nav-burger { display: flex; }
   .nav-links {
-    display: none;
+    display: flex;
     position: fixed;
-    top: 60px; left: 0; right: 0;
+    top: 100%; left: 0; right: 0;
     background: rgba(5,5,16,0.98);
     backdrop-filter: blur(12px);
     flex-direction: column;
     align-items: center;
     gap: 0;
     border-bottom: 1px solid var(--border);
-    z-index: 99;
+    z-index: 200;
     padding: 0;
   }
   .nav-links.open { display: flex; }

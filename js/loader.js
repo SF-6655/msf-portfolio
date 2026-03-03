@@ -24,7 +24,6 @@ async function loadComponents() {
   initNavbarScroll();
   initMonoAnimation();
   initBurger();
-  initBurger();
   initContactForm(); 
 }
 
