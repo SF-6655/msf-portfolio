@@ -615,3 +615,35 @@ footer { border-top:1px solid var(--border);padding:40px 24px;text-align:center;
   .cube-face.top    { transform: rotateX(90deg) translateZ(50px); }
   .cube-face.bottom { transform: rotateX(-90deg) translateZ(50px); }
 }
+
+/* ── PROJECT LINKS ── */
+.project-links {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.project-link-btn {
+  padding: 6px 16px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: 1px solid var(--cyan);
+  color: var(--cyan);
+  transition: all 0.3s;
+}
+.project-link-btn:hover {
+  background: var(--cyan);
+  color: #000;
+}
+.project-link-btn.ghost {
+  border-color: rgba(0,245,255,0.3);
+  color: #aaa;
+}
+.project-link-btn.ghost:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: transparent;
+}
