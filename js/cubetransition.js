@@ -104,8 +104,20 @@ function initCubeTransition() {
       overlay.appendChild(bar);
     }
 
-    // Mid-point: scroll instantly
+    // Mid-point: scroll instantly, then force reveals so they don't animate in under the overlay
     setTimeout(onMidpoint, 230);
+    setTimeout(() => {
+      const targetEl = document.querySelector(sectionIds[currentIndex]);
+      if (targetEl) {
+        targetEl.querySelectorAll('.reveal').forEach(el => {
+          el.style.transition = 'none';
+          el.classList.add('visible');
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            el.style.transition = '';
+          }));
+        });
+      }
+    }, 270);
 
     // Fade out
     setTimeout(() => {
