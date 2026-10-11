@@ -72,7 +72,8 @@ function initCubeTransition() {
   }
 
   // ── GLITCH WIPE ──
-  function runGlitch(direction, onMidpoint) {
+  // targetId: the CSS selector for the destination section
+  function runGlitch(direction, targetId, onMidpoint) {
     overlay.innerHTML = '';
     overlay.style.opacity = '1';
 
@@ -104,31 +105,35 @@ function initCubeTransition() {
       overlay.appendChild(bar);
     }
 
-    // Mid-point: scroll instantly, then force reveals so they don't animate in under the overlay
-    setTimeout(onMidpoint, 230);
+    // Mid-point: scroll + force all reveals in target section to appear instantly
+    // Transitions are suppressed until the overlay is fully gone (700ms)
     setTimeout(() => {
-      const targetEl = document.querySelector(sectionIds[currentIndex]);
+      const targetEl = document.querySelector(targetId);
       if (targetEl) {
         targetEl.querySelectorAll('.reveal').forEach(el => {
           el.style.transition = 'none';
           el.classList.add('visible');
-          requestAnimationFrame(() => requestAnimationFrame(() => {
-            el.style.transition = '';
-          }));
         });
       }
-    }, 270);
+      onMidpoint();
+    }, 230);
 
-    // Fade out
+    // Fade out overlay
     setTimeout(() => {
       overlay.style.transition = 'opacity 0.18s ease';
       overlay.style.opacity = '0';
     }, 490);
 
-    // Cleanup
+    // Cleanup — restore transitions only after overlay is completely gone
     setTimeout(() => {
       overlay.style.transition = '';
       overlay.innerHTML = '';
+      const targetEl = document.querySelector(targetId);
+      if (targetEl) {
+        targetEl.querySelectorAll('.reveal').forEach(el => {
+          el.style.transition = '';
+        });
+      }
     }, 700);
   }
 
@@ -142,11 +147,11 @@ function initCubeTransition() {
     lastScrollTime  = now;
     isTransitioning = true;
 
-    const direction = toIndex > currentIndex ? 'down' : 'up';
+    const direction  = toIndex > currentIndex ? 'down' : 'up';
+    const targetId   = sectionIds[toIndex];
 
-    runGlitch(direction, () => {
-      document.querySelector(sectionIds[toIndex])
-        ?.scrollIntoView({ behavior: 'instant' });
+    runGlitch(direction, targetId, () => {
+      document.querySelector(targetId)?.scrollIntoView({ behavior: 'instant' });
       currentIndex = toIndex;
       updateDots();
     });
