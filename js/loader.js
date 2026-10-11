@@ -24,7 +24,6 @@ async function loadComponents() {
   initTypewriter();
   initScrollReveal();
   initNavbarScroll();
-  initMonoAnimation();
   initBurger();
   initContactForm();
   initCounters();
