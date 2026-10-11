@@ -205,6 +205,20 @@ nav {
   box-shadow: 0 0 20px rgba(255,0,255,0.3);
 }
 
+.btn-cv {
+  padding: 14px 32px; background: transparent;
+  border: 1px solid rgba(123,47,255,0.5); color: var(--purple);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.85rem; letter-spacing: 2px;
+  cursor: pointer; text-decoration: none;
+  text-transform: uppercase; transition: all 0.3s; display: inline-block;
+}
+.btn-cv:hover {
+  border-color: var(--purple);
+  box-shadow: 0 0 20px rgba(123,47,255,0.35);
+  color: #c89fff;
+}
+
 /* ── HERO ── */
 #hero {
   min-height: 100vh; display: flex;
