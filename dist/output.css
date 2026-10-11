@@ -9,7 +9,7 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; font-size: 18px; }
 
 body {
   background: var(--dark);
@@ -534,6 +534,7 @@ footer { border-top:1px solid var(--border);padding:40px 24px;text-align:center;
 
 /* ── RESPONSIVE ── */
 @media (max-width:768px) {
+  html { font-size: 16px; }
   nav { padding: 16px 20px; }
   .nav-burger { display: flex; }
 
