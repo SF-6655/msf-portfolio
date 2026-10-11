@@ -1,39 +1,32 @@
-// ── CUBE SCROLL TRANSITION ──
+// ── SECTION SNAP + GLITCH WIPE ──
 function initCubeTransition() {
 
   const sectionIds = [
-    '#hero',
-    '#about',
-    '#education',
-    '#experience',
-    '#skills',
-    '#projects',
-    '#contact'
+    '#hero', '#about', '#education', '#experience',
+    '#skills', '#projects', '#monetization', '#contact'
   ];
 
   const sectionLabels = [
-    'HERO', 'ABOUT', 'EDUCATION',
-    'EXPERIENCE', 'SKILLS', 'PROJECTS', 'CONTACT'
+    'HERO', 'ABOUT', 'EDUCATION', 'EXPERIENCE',
+    'SKILLS', 'PROJECTS', 'SYSTEM', 'CONTACT'
   ];
 
-  let cubeMode      = false;
-  let currentIndex  = 0;
+  let snapMode       = false;
+  let currentIndex   = 0;
   let isTransitioning = false;
-  const COOLDOWN    = 1300;
+  const COOLDOWN     = 900;
   let lastScrollTime = 0;
 
-  // ── CREATE OVERLAY ──
+  // ── GLITCH OVERLAY ──
   const overlay = document.createElement('div');
-  overlay.className = 'cube-transition-overlay';
-  overlay.innerHTML = `
-    <div class="cube-transition-panel" id="cubePanel">
-      <div class="cube-panel-current" id="cubeCurrent"></div>
-      <div class="cube-panel-next"    id="cubeNext"></div>
-    </div>
+  overlay.id = 'glitchOverlay';
+  overlay.style.cssText = `
+    position:fixed; inset:0; z-index:9997;
+    pointer-events:none; overflow:hidden; opacity:0;
   `;
   document.body.appendChild(overlay);
 
-  // ── CREATE DOTS ──
+  // ── SECTION DOTS ──
   const dots = document.createElement('div');
   dots.className = 'section-dots';
   sectionIds.forEach((_, i) => {
@@ -51,28 +44,24 @@ function initCubeTransition() {
     });
   }
 
-  // ── TOGGLE BUTTON ──
-  const toggleBtn = document.getElementById('cubeToggle');
+  // ── TOGGLE ──
+  const toggleBtn  = document.getElementById('cubeToggle');
+  const toggleIcon = document.getElementById('cubeToggleIcon');
   if (toggleBtn) {
     toggleBtn.addEventListener('click', () => {
-      cubeMode = !cubeMode;
-      toggleBtn.classList.toggle('active', cubeMode);
-      toggleBtn.innerHTML = cubeMode
-        ? '⬛ CUBE ON'
-        : '⬜ CUBE OFF';
-      dots.classList.toggle('visible', cubeMode);
-
-      if (cubeMode) {
-        // Snap to nearest section when enabling
+      snapMode = !snapMode;
+      toggleBtn.classList.toggle('active', snapMode);
+      if (toggleIcon) toggleIcon.textContent = snapMode ? '⚡' : '⬜';
+      dots.classList.toggle('visible', snapMode);
+      if (snapMode) {
         currentIndex = getCurrentSectionIndex();
         updateDots();
         document.querySelector(sectionIds[currentIndex])
-          .scrollIntoView({ behavior: 'instant' });
+          ?.scrollIntoView({ behavior: 'instant' });
       }
     });
   }
 
-  // ── GET CURRENT SECTION ──
   function getCurrentSectionIndex() {
     for (let i = sectionIds.length - 1; i >= 0; i--) {
       const el = document.querySelector(sectionIds[i]);
@@ -82,103 +71,102 @@ function initCubeTransition() {
     return 0;
   }
 
-  // ── CUBE TRANSITION ──
+  // ── GLITCH WIPE ──
+  function runGlitch(direction, onMidpoint) {
+    overlay.innerHTML = '';
+    overlay.style.opacity = '1';
+
+    // Directional scan line
+    const scan = document.createElement('div');
+    scan.className = direction === 'down' ? 'glitch-scan-down' : 'glitch-scan-up';
+    overlay.appendChild(scan);
+
+    // Random horizontal noise bars
+    const count = 7 + Math.floor(Math.random() * 6);
+    for (let i = 0; i < count; i++) {
+      const bar      = document.createElement('div');
+      const top      = Math.random() * 96;
+      const h        = 1 + Math.random() * 9;
+      const delay    = Math.random() * 260;
+      const dur      = 70 + Math.random() * 130;
+      const cyan     = Math.random() > 0.38;
+      const opacity  = 0.07 + Math.random() * 0.2;
+      const shiftX   = (Math.random() - 0.5) * 24;
+      bar.style.cssText = `
+        position:absolute; left:0; right:0;
+        top:${top}%; height:${h}px;
+        background:${cyan
+          ? `rgba(0,245,255,${opacity})`
+          : `rgba(255,0,255,${opacity})`};
+        transform:translateX(${shiftX}px);
+        animation:glitchBar ${dur}ms ${delay}ms ease both;
+      `;
+      overlay.appendChild(bar);
+    }
+
+    // Mid-point: scroll instantly
+    setTimeout(onMidpoint, 230);
+
+    // Fade out
+    setTimeout(() => {
+      overlay.style.transition = 'opacity 0.18s ease';
+      overlay.style.opacity = '0';
+    }, 490);
+
+    // Cleanup
+    setTimeout(() => {
+      overlay.style.transition = '';
+      overlay.innerHTML = '';
+    }, 700);
+  }
+
   function goToSection(toIndex) {
-    if (!cubeMode) return;
-    if (isTransitioning) return;
+    if (!snapMode || isTransitioning) return;
     if (toIndex < 0 || toIndex >= sectionIds.length) return;
     if (toIndex === currentIndex) return;
 
     const now = Date.now();
     if (now - lastScrollTime < COOLDOWN) return;
-    lastScrollTime = now;
-
+    lastScrollTime  = now;
     isTransitioning = true;
 
     const direction = toIndex > currentIndex ? 'down' : 'up';
 
-    // Show overlay
-    overlay.style.opacity = '1';
-    overlay.style.pointerEvents = 'all';
-
-    const panel   = document.getElementById('cubePanel');
-    const current = document.getElementById('cubeCurrent');
-    const next    = document.getElementById('cubeNext');
-
-    // Reset
-    panel.style.transition = 'none';
-    current.style.transition = 'none';
-    next.style.transition = 'none';
-
-    current.style.transform = 'rotateX(0deg)';
-    current.style.transformOrigin = direction === 'down' ? 'center bottom' : 'center top';
-
-    next.style.transform = direction === 'down' ? 'rotateX(-90deg)' : 'rotateX(90deg)';
-    next.style.transformOrigin = direction === 'down' ? 'center top' : 'center bottom';
-    next.style.borderTop = direction === 'down' ? '2px solid rgba(0,245,255,0.4)' : 'none';
-    next.style.borderBottom = direction === 'up' ? '2px solid rgba(0,245,255,0.4)' : 'none';
-
-    // Force reflow
-    panel.offsetHeight;
-
-    // Animate current folding away
-    current.style.transition = 'transform 0.65s cubic-bezier(0.77,0,0.18,1)';
-    next.style.transition    = 'transform 0.65s cubic-bezier(0.77,0,0.18,1)';
-
-    current.style.transform = direction === 'down' ? 'rotateX(90deg)' : 'rotateX(-90deg)';
-    next.style.transform    = 'rotateX(0deg)';
-
-    // Midpoint — scroll to section
-    setTimeout(() => {
-      const target = document.querySelector(sectionIds[toIndex]);
-      if (target) target.scrollIntoView({ behavior: 'instant' });
+    runGlitch(direction, () => {
+      document.querySelector(sectionIds[toIndex])
+        ?.scrollIntoView({ behavior: 'instant' });
       currentIndex = toIndex;
       updateDots();
-    }, 400);
+    });
 
-    // Fade out overlay
-    setTimeout(() => {
-      overlay.style.transition = 'opacity 0.35s ease';
-      overlay.style.opacity = '0';
-    }, 650);
-
-    // Cleanup
-    setTimeout(() => {
-      overlay.style.pointerEvents = 'none';
-      overlay.style.transition = 'none';
-      isTransitioning = false;
-    }, 1050);
+    setTimeout(() => { isTransitioning = false; }, 900);
   }
 
   // ── WHEEL ──
   let wheelAccum = 0;
-  let wheelTimer = null;
+  let wheelTimer  = null;
 
   window.addEventListener('wheel', (e) => {
-    if (!cubeMode) return;
+    if (!snapMode) return;
     e.preventDefault();
-
     wheelAccum += e.deltaY;
     clearTimeout(wheelTimer);
-
     wheelTimer = setTimeout(() => {
-      if (wheelAccum > 50)       goToSection(currentIndex + 1);
+      if      (wheelAccum >  50) goToSection(currentIndex + 1);
       else if (wheelAccum < -50) goToSection(currentIndex - 1);
       wheelAccum = 0;
     }, 60);
-
   }, { passive: false });
 
-  // ── TOUCH SWIPE ──
+  // ── TOUCH ──
   let touchStartY = 0;
-
   window.addEventListener('touchstart', (e) => {
-    if (!cubeMode) return;
+    if (!snapMode) return;
     touchStartY = e.touches[0].clientY;
   }, { passive: true });
 
   window.addEventListener('touchend', (e) => {
-    if (!cubeMode || isTransitioning) return;
+    if (!snapMode || isTransitioning) return;
     const diff = touchStartY - e.changedTouches[0].clientY;
     if (Math.abs(diff) < 50) return;
     currentIndex = getCurrentSectionIndex();
@@ -187,15 +175,15 @@ function initCubeTransition() {
 
   // ── KEYBOARD ──
   window.addEventListener('keydown', (e) => {
-    if (!cubeMode) return;
+    if (!snapMode) return;
     if (e.key === 'ArrowDown' || e.key === 'PageDown') goToSection(currentIndex + 1);
     if (e.key === 'ArrowUp'   || e.key === 'PageUp')   goToSection(currentIndex - 1);
   });
 
-  // ── NAVBAR LINKS ──
+  // ── NAV LINKS ──
   document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', (e) => {
-      if (!cubeMode) return;
+      if (!snapMode) return;
       const href = link.getAttribute('href');
       const idx  = sectionIds.indexOf(href);
       if (idx !== -1) { e.preventDefault(); goToSection(idx); }
