@@ -2,30 +2,70 @@
   <div class="container">
     <div class="reveal">
       <div class="section-tag">// 03 — EXPERIENCE</div>
-      <h2 class="section-title">Where I've Worked</h2>
+      <h2 class="section-title">Work History</h2>
       <div class="section-line"></div>
     </div>
+
     <div class="exp-timeline">
+
       <div class="exp-item reveal">
-        <div class="exp-company">PHANTOM TECH</div>
-        <div class="exp-role">Co-Founder / Technical Contributor</div>
-        <div class="exp-date">CURRENT ROLE</div>
+        <div class="exp-company">AlphaTeach — Australia</div>
+        <div class="exp-role">Contract Web Developer</div>
+        <div class="exp-date">SEP 2025 – FEB 2026 · Remote · Small Distributed Team</div>
         <div class="exp-desc">
-          Co-owner of a technology initiative, contributing to full stack development
-          projects, client communication, architecture planning, and system deployment
-          strategies. Responsible for both technical delivery and business development.
+          Contributed to the full redevelopment of an Australian education platform as part of a small remote
+          engineering team — delivering a verified <span class="exp-highlight">200% increase in website signups</span> post-launch.
+        </div>
+        <ul class="exp-bullets">
+          <li>Rebuilt responsive UI using HTML5, CSS3, Tailwind CSS, and JavaScript with reusable components, animations, and improved user flows across multiple pages.</li>
+          <li>Integrated Zoho Bigin CRM, Google Calendar API, Formspree, and reCAPTCHA v3 to automate customer workflows and strengthen platform security.</li>
+          <li>Managed production deployments and CI workflows on Vercel; handled debugging, security hardening, and delivery under evolving requirements with a reduced team.</li>
+        </ul>
+        <div class="exp-tags">
+          <span class="project-tag">HTML5</span>
+          <span class="project-tag">CSS3</span>
+          <span class="project-tag">Tailwind CSS</span>
+          <span class="project-tag">JavaScript</span>
+          <span class="project-tag">Vercel</span>
+          <span class="project-tag">Zoho CRM</span>
+          <span class="project-tag">Google Calendar API</span>
+          <span class="project-tag">reCAPTCHA v3</span>
         </div>
       </div>
-      <div class="exp-item reveal">
-        <div class="exp-company">ALPHATEACH.COM.AU — REMOTE</div>
-        <div class="exp-role">Full Stack Developer (Remote Client Project)</div>
-        <div class="exp-date">INTERNATIONAL CLIENT · UNDER PHANTOM TECH</div>
-        <div class="exp-desc">
-          Contributed to full stack development for a remote international client.
-          Worked on frontend UI implementation, backend integration, and collaborative
-          feature delivery across a distributed team on production timelines.
-        </div>
-      </div>
+
     </div>
   </div>
+
+  <style>
+    .exp-highlight { color: var(--cyan); font-weight: 600; }
+    .exp-bullets {
+      list-style: none;
+      margin: 16px 0 20px;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .exp-bullets li {
+      color: #c0c0c0;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      padding-left: 20px;
+      position: relative;
+    }
+    .exp-bullets li::before {
+      content: '>';
+      position: absolute;
+      left: 0;
+      color: var(--cyan);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.85rem;
+    }
+    .exp-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+  </style>
 </section>

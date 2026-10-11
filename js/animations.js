@@ -208,10 +208,10 @@ drawTrail();
 // ── TYPEWRITER ──
 function initTypewriter() {
   const roles = [
-    'Flutter Developer',
-    'Full Stack Engineer',
-    'Co-Founder @ Phantom Tech',
-    'Mobile App Builder'
+    'Full-Stack Developer',
+    'React & Next.js Engineer',
+    'Co-Founder @ Aegis Solutions',
+    'AI Integration Specialist'
   ];
   let roleIdx = 0, charIdx = 0, deleting = false;
   const tw = document.getElementById('typewriter');
